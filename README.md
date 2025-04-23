@@ -65,7 +65,7 @@ EduPath features a chatbot/voicebot that:
 
 ## 🚀 Getting Started
 
-> _Coming soon: Instructions on how to run the project locally and deploy it._
+> _Coming soon_
 
 ---
 
