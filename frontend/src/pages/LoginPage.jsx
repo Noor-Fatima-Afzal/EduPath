@@ -13,7 +13,7 @@ function LoginPage() {
     const navigate = useNavigate()
 
     // Notification for login attempt
-    const showToast = (type, message) => {
+    const showTlast = (type, message) => {
 	    setToast({ type, message })
 	    // Temporary notification
 	    window.setTimeout(() => {
@@ -41,7 +41,7 @@ function LoginPage() {
           const result = await mockLogin(userName, password);
           showToast("success", "Login successful!");
           localStorage.setItem('token', result.token);
-          // navigate("/recommendations"); // TODO add page/route
+          navigate("/dashboard", { replace: true }); // prevents back-nav
         } catch (err) {
             showToast("error", err.message || "Login failed!");
         } finally {
