@@ -4,13 +4,13 @@ export async function mockLogin(username, password) {
  	
     // Mock user database
     const mockUser = {
-	username: "admin",
-	password: "secret",
+	    username: "admin",
+	    password: "secret",
     };
 
     if (username == mockUser.username && password == mockUser.password) {
-	return { success: true, token: "mock-token-12345" };
+	    return { success: true, token: "mock-token-12345" };
     } else {
-	throw new Error("Invalid credentials");
+	    throw new Error("Invalid credentials");
     }
 }

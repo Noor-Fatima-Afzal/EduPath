@@ -3,6 +3,7 @@ import LoginForm from "../components/LoginForm.jsx"
 import Alert from "../components/Alert.jsx"
 import { useNavigate } from "react-router-dom"
 import { mockLogin } from "../services/api"
+import logo from "../assets/images/edu_path_logo.png"
 
 function LoginPage() {
     const [userName, setUserName] = useState("")
@@ -13,7 +14,7 @@ function LoginPage() {
     const navigate = useNavigate()
 
     // Notification for login attempt
-    const showTlast = (type, message) => {
+    const showToast = (type, message) => {
 	    setToast({ type, message })
 	    // Temporary notification
 	    window.setTimeout(() => {
@@ -34,7 +35,6 @@ function LoginPage() {
     // Submits form, triggers toast notification
     const handleFormSubmit = async (evt) => {
       evt.preventDefault()
-      console.log("submitting")
       setLoading(true) // TODO Loading state flag
       // Handle successfull vs. failed login    
         try {
@@ -54,18 +54,20 @@ function LoginPage() {
         {toast && (
           <Alert alertType={toast.type} alertMessage={toast.message} />
         )}
-        <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className={`flex min-h-full flex-1 flex-col justify-center 
+                      py-12 sm:px-6 lg:px-8`}>
             <img
-             alt="< EduPath logo >"
-               src=""
-               className="mx-auto h-10 w-auto"
+              alt="< EduPath logo >"
+              src={logo}
+              className="mx-auto h-105 w-auto"
             />
-          <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          <h2 className={`mt-6 text-center text-3xl/7 font-semibold tracking-tight 
+                          text-pink-300`}>
             Sign into your account
           </h2>
         </div>
 	      {/* Login Form */}
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-[480px]">
             <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
               <LoginForm 
                 userName={userName} 
@@ -75,8 +77,9 @@ function LoginPage() {
                 handleFormSubmit={handleFormSubmit}
 	    	      />
              <p className="mt-10 text-center text-sm/6 text-gray-500">
-                Not a member?{' '}
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                Not a member? &nbsp;
+                <a href="#" className={`font-semibold text-cyan-900 
+                                          hover:text-cyan-500`}>
                     Start a 14-day trial
                 </a>
              </p>

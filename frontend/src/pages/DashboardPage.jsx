@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+import pfp from "../assets/images/generic_pfp.png"
+import logo from "../assets/images/edu_path_logo.png"
 
 
 function DashboardPage() {
@@ -16,11 +18,11 @@ function DashboardPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">
-            <div className="flex shrink-0 items-center">
+            <div className="flex shrink-0 items-center pt-1.5">
               <img
                 alt="EduPath Logo"
-                src=""
-                className="h-8 w-auto"
+                src={logo}
+                className="h-24 w-auto"
               />
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -51,7 +53,7 @@ function DashboardPage() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
-                    src=""
+                    src={pfp}
                     className="size-8 rounded-full"
                   />
                 </MenuButton>
