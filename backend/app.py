@@ -27,7 +27,7 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 hf_token = os.getenv("HF_TOKEN")
 
 app = Flask(__name__)
-CORS(app, resources={r"/*", {"origins": "http://localhost*"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost*"}})
 
 print("[DEBUG] About to initialize ChatGroq...")
 # ---------------- RAG SETUP ----------------
