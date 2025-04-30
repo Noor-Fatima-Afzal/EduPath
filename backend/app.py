@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import pandas as pd
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_retrieval_chain, create_history_aware_retriever
+from langchain.vectorstores import Chroma
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import AIMessage, HumanMessage
 
@@ -25,6 +27,7 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 hf_token = os.getenv("HF_TOKEN")
 
 app = Flask(__name__)
+CORS(app, resources={r"/*", {"origins": "http://localhost*"}})
 
 print("[DEBUG] About to initialize ChatGroq...")
 # ---------------- RAG SETUP ----------------
@@ -43,7 +46,17 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10
 splits = text_splitter.split_documents(docs)
 
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-vectorstore = Chroma.from_documents(documents=splits, embedding=embeddings)
+
+persist_dir = "chroma_db"
+
+if os.path.exists(persist_dir):
+    print("[DEBUG] Loading persisted vectorstore...")
+    vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embeddings)
+else:
+    print("[DEBUG] Building vecotrstore from documents...")
+    vectorstore = Chroma.from_documents(docs, embeddings, persist_directory=persist_dir)
+    vectorstore.persist()
+
 retriever = vectorstore.as_retriever()
 
 print("[DEBUG] Chroma load complete.")
