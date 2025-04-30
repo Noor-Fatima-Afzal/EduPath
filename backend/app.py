@@ -16,6 +16,9 @@ from langchain.chains import create_retrieval_chain, create_history_aware_retrie
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import AIMessage, HumanMessage
 
+# Logging
+print("[DEBUG] Starting EduPath backend server...")
+
 # Load environment variables
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
@@ -23,12 +26,17 @@ hf_token = os.getenv("HF_TOKEN")
 
 app = Flask(__name__)
 
+print("[DEBUG] About to initialize ChatGroq...")
 # ---------------- RAG SETUP ----------------
 llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
+
+print("[DEBUG] llm initialized...")
 
 # Load DOCX files
 loader = DirectoryLoader("data", glob="**/*.docx", loader_cls=UnstructuredWordDocumentLoader)
 docs = loader.load()
+
+print("[DEBUG] Loading .docx files from data directory...")
 
 # Split and embed documents
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
@@ -37,6 +45,8 @@ splits = text_splitter.split_documents(docs)
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 vectorstore = Chroma.from_documents(documents=splits, embedding=embeddings)
 retriever = vectorstore.as_retriever()
+
+print("[DEBUG] Chroma load complete.")
 
 # System prompt for QA
 system_prompt = (
